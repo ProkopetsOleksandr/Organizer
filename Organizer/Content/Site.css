@@ -22,3 +22,19 @@ select,
 textarea {
     max-width: 280px;
 }
+
+
+.list {
+    padding: 10px;
+    background-color: rgba(0,0,0,0.1);
+    min-height: 50px;
+    list-style: none;
+    margin-bottom: 50px;
+}
+
+.list .list-item {
+    background-color: #f3f3f3;
+    border-radius: 3px;
+    padding: 10px 20px;
+    margin: 4px 0;
+}

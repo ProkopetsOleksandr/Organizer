@@ -16,4 +16,13 @@ namespace Organizer.Models
         [Required]
         public string Name { get; set; }
     }
+
+    public enum PlannerPeriod
+    {
+        YEAR = 1,
+        MONTH = 2,
+        WEEK = 3,
+        DAY = 4,
+        INBOX = 5,
+    }
 }

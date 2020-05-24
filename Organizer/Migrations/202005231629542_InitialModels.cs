@@ -25,7 +25,7 @@ namespace Organizer.Migrations
                         DateAdded = c.DateTime(nullable: false),
                         DateFinished = c.DateTime(),
                         Description = c.String(),
-                        ProjectId = c.Int(nullable: false),
+                        ProjectId = c.Int(nullable: true),
                         StatusId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)

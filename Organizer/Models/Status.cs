@@ -12,6 +12,14 @@ namespace Organizer.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public int Name { get; set; }
+        public string Name { get; set; }
+    }
+
+    public enum GoalStatus
+    {
+        NEW = 1,
+        INPROCESS = 2,
+        DONE = 3,
+        FAILED = 4
     }
 }
