@@ -22,9 +22,16 @@ namespace Organizer
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/libs").Include(
+                      "~/Scripts/dataTables/jquery.datatables.js",
+                      "~/Scripts/dataTables/datatables.bootstrap.js",
+                      "~/Scripts/main.js"));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      "~/Content/dataTables/css/datatables.bootstrap.css",
                       "~/Content/site.css"));
         }
     }
 }
+

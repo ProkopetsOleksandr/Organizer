@@ -20,6 +20,7 @@ namespace Organizer.Models
         NEW = 1,
         INPROCESS = 2,
         DONE = 3,
-        FAILED = 4
+        FAILED = 4,
+        EVERYDAY = 5
     }
 }

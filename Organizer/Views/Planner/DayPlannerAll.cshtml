@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewBag.Title = "DayPlannerAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Все дневные планнеры</h2>
+
+
+<div class="table-responsive">
+    <table id="day-planners" class="table table-bordered table-hover" width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th>Дата</th>
+                <th>Дії</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+        <tfoot>
+            <tr>
+                <th>Дата</th>
+                <th>Дії</th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+
+@section scripts {
+
+    <script>
+        $(document).ready(function () {
+
+            $("#day-planners").DataTable({
+                ajax: {
+                    url: "/api/planner/dayplanners",
+                    dataSrc: "",
+                },
+                columns: [
+                    {
+                        data: "ValidTo",
+                        render: function (data) {
+                            return data.substring(0, 10);
+                        }
+                    },
+                    {
+                        data: "Id",
+                        render: function (data) {
+                            return "<a href='/planner/day-planner/" + data + "'><i>Просмотр</i></a>";
+                        }
+                    }
+                ]
+            });
+
+        });
+    </script>
+
+}
+

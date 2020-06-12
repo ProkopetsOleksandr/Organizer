@@ -7,7 +7,7 @@ namespace Organizer.Migrations
     {
         public override void Up()
         {
-            Sql("INSERT INTO Status(name) VALUES ('Новая'), ('В процессе'), ('Выполненная'), ('Просроченная');");
+            Sql("INSERT INTO Status(name) VALUES ('Новая'), ('В процессе'), ('Выполненная'), ('Просроченная'), ('Ежедневная');");
         }
         
         public override void Down()

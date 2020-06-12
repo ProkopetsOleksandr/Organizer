@@ -24,5 +24,6 @@ namespace Organizer.Models
         WEEK = 3,
         DAY = 4,
         INBOX = 5,
+        EVERYDAY = 6
     }
 }

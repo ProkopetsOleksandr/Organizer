@@ -5,26 +5,23 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>CreateYearPlanner</h2>
+<h2 class="text-center">План на год</h2>
 <input id="planner-id" type="hidden" value="@Model.Planner.Id" />
 
 
 @if (Model.InboxGoals.Count > 0)
 {
-    <ul class="list">
-        @foreach (var goal in Model.InboxGoals)
-        {
-            <li class="list-item" draggable="true">@goal.Name</li>
-        }
-    </ul>
-}
-else
-{
-    <p>Ibox пуст</p>
+    <div class="category-list">
+        <p class="category-name">Входящее:</p>
+        <ul class="list">
+            @foreach (var goal in Model.InboxGoals)
+            {
+                <li class="list-item" draggable="true" data-goalid=@goal.Id>@goal.Name</li>
+            }
+        </ul>
+    </div>
 }
 
-
-<h4>Контент планера: </h4>
 <div id="planner">
 
 </div>
@@ -49,17 +46,39 @@ else
                         var category = response[prop].category;
                         var goals = response[prop].goals;
 
-                        var div = $("<div>");
-                        var p = $("<p data-projectId=" + projectId + ">" + category + "</p>");
+                        var div = $("<div class='category-list'>");
+                        var p = $("<p class='category-name' data-projectId=" + projectId + ">" + category + ":</p>");
                         var ul = $("<ul class='list'>");
-                        var input = $("<input class='add-input'>");
+                        var input = $("<input class='add-input' placeholder='Добавить новую задачу'>");
 
                         for (var goal in goals) {
-                            var li = $("<li class='list-item' draggable='true'>" + goals[goal].Name + "</li>");
+                            //var li = $("<li class='list-item' draggable='true' data-goalid=" + goals[goal].Id + ">" + goals[goal].Name + "</li>");
+                            var li = $("<li class='list-item' draggable='true' data-goalid=" + goals[goal].Id + ">");
+                            var span = $("<span class='goal-name'>")
+                            var content = document.createTextNode(goals[goal].Name);
+
+                            let checkbox = $("<input type='checkbox' class='goal-check' data-goalId=" + goals[goal].Id + ">");
+                            let deleteBtn = $("<button class='btn btn-danger badge pull-right js-delete' data-goalId=" + goals[goal].Id + ">Delete</Button>")
+
+                            var doneStatus = 3;
+                            if (goals[goal].StatusId == doneStatus) {
+                                checkbox.prop('checked', true);
+
+                                li.css("border-left","3px solid green");
+
+                            }
+                            else {
+                                checkbox.prop('checked', false);
+                                li.css("border-left", "3px solid #fb2401");
+                            }
+                                
+
+                            li.append(checkbox);
+                            span.append(content)
+                            li.append(span);
+                            li.append(deleteBtn);
                             ul.append(li);
                         }
-
-
 
                         div.append(p);
                         div.append(ul);
@@ -69,94 +88,9 @@ else
 
                     MakeDraggable();
                     InitializeInputs();
+                    InitializeCheckboxes();
                 }
             });
-
-
-            function MakeDraggable() {
-                
-                const list_items = document.querySelectorAll('.list-item');
-                const lists = document.querySelectorAll('.list');
-
-                let draggedItem = null;
-
-                for (let i = 0; i < list_items.length; i++) {
-                    const item = list_items[i];
-
-                    item.addEventListener('dragstart', function () {
-                        draggedItem = item;
-
-                        setTimeout(function () {
-                            item.style.display = 'none';
-                        }, 0);
-                        
-                    });
-
-                    item.addEventListener('dragend', function () {
-                        setTimeout(function () {
-                            draggedItem.style.display = 'block';
-                            draggedItem = null;
-                        }, 0);
-                    });
-
-                    for (let j = 0; j < lists.length; j++) {
-                        const list = lists[j];
-
-                        list.addEventListener('dragover', function (e) {
-                            e.preventDefault();
-                        });
-
-                        list.addEventListener('dragenter', function (e) {
-                            e.preventDefault();
-                            this.style.backgroudColor = 'rgba(0, 0, 0, 0.2)';
-                        });
-
-                        list.addEventListener('dragleave', function (e) {
-                            e.preventDefault();
-                            this.style.backgroudColor = 'rgba(0, 0, 0, 0.1)';
-                        });
-
-                        list.addEventListener('drop', function (e) {
-                            this.append(draggedItem);
-                            this.style.backgroudColor = 'rgba(0, 0, 0, 0.1)';
-                        });
-                    }
-                }
-            }
-
-            function InitializeInputs() {
-                const inputs = document.querySelectorAll('.add-input');
-
-                for (let i = 0; i < inputs.length; i++) {
-                    const item = inputs[i];
-
-                    item.addEventListener('keyup', function (event) {
-                        if (event.key === "Enter") {
-                            event.preventDefault();
-                            let div = item.parentElement;
-                            let p = div.getElementsByTagName('p')[0];
-
-
-                            let projectId = parseInt(p.dataset.projectid);
-                            let name = item.value;
-
-                            $.ajax({
-                                url: "/api/planner/",
-                                data: { plannerId: plannerId, projectId: projectId, goalName: name },
-                                method: "POST",
-                                success: function () {
-                                    var li = $("<li class='list-item' draggable='true'>" + name + "</li>");
-                                    let ul = div.getElementsByTagName('ul')[0];
-                                    $(ul).append(li);
-                                }
-                            });
-                            
-                            item.value = "";
-                        }
-                    });
-                }
-            }
-
         });
 
     </script>

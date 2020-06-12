@@ -5,14 +5,14 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>Входящие (TO-DO-LIST)</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Добавить новую задачу", "Create")
 </p>
-<table class="table">
+<table class="table table-bordered">
     <tr>
-
+        <th>№</th>
         <th>
             @Html.DisplayNameFor(model => model.Name)
         </th>
@@ -21,14 +21,17 @@
         </th>
     </tr>
 
+@{ int i = 1; } 
 @foreach (var item in Model) {
     <tr>
+        <td>@i</td>
         <td>
             @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Description)
         </td>
+        @{ i++; }
     </tr>
 }
 

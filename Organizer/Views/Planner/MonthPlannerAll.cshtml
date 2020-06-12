@@ -1,0 +1,67 @@
+﻿
+@{
+    ViewBag.Title = "DayPlannerAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Все месячные планнеры</h2>
+
+
+<div class="table-responsive">
+    <table id="month-planners" class="table table-bordered table-hover" width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th>Дата (с)</th>
+                <th>Дата (по)</th>
+                <th>Дії</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+        <tfoot>
+            <tr>
+                <th>Дата (с)</th>
+                <th>Дата (по)</th>
+                <th>Дії</th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+
+@section scripts {
+
+    <script>
+        $(document).ready(function () {
+
+            $("#month-planners").DataTable({
+                ajax: {
+                    url: "/api/planner/monthplanners",
+                    dataSrc: "",
+                },
+                columns: [
+                    {
+                        data: "ValidFrom",
+                        render: function (data) {
+                            return data.substring(0, 10);
+                        }
+                    },
+                    {
+                        data: "ValidTo",
+                        render: function (data) {
+                            return data.substring(0, 10);
+                        }
+                    },
+                    {
+                        data: "Id",
+                        render: function (data) {
+                            return "<a href='/planner/month-planner/" + data + "'><i>Просмотр</i></a>";
+                        }
+                    }
+                ]
+            });
+
+        });
+    </script>
+
+}
+

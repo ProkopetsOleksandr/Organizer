@@ -1,6 +1,7 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    background-color: #ECF0F3;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -26,15 +27,87 @@ textarea {
 
 .list {
     padding: 10px;
-    background-color: rgba(0,0,0,0.1);
+    background-color: #fff;
     min-height: 50px;
     list-style: none;
-    margin-bottom: 50px;
+    box-shadow: -2px 4px 15px -12px rgba(0,0,0,0.84);
+    margin: 0;
+    border-radius: 12px 12px 0 0;
 }
 
 .list .list-item {
-    background-color: #f3f3f3;
+    display: block;
+        
+    background-color: #eff0f06e;
     border-radius: 3px;
-    padding: 10px 20px;
+    padding: 10px 10px;
     margin: 4px 0;
+    border-bottom: 1px solid #c7c3c3;
+}
+
+.goal-name {
+    margin-left: 14px;
+}
+
+
+.category-list {
+    margin-bottom: 20px;
+}
+
+p.category-name {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.add-input {
+    max-width: none;
+    width: 100%;
+    padding: 5px 15px;
+    border: 1px solid #f3f3f3;
+}
+
+.mb-5 {
+    margin-bottom: 20px;
+}
+
+#year-goals,
+#month-goals,
+#week-goals {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-around;
+}
+
+
+/* HOME PAGE */
+.planner {
+    margin-top: 60px;
+}
+
+    .planner p {
+        height: 150px;
+        text-align: right;
+        font-size: 30px;
+        padding: 0 15px 0 0;
+        margin: 0;
+        background: #313131;
+        color: #fff;
+        font-weight: 800;
+    }
+
+    .planner a {
+        display: inline-block;
+        text-align: center;
+        background: #fff;
+        height: 30px;
+        padding: 5px;
+        border: 1px solid #313131;
+        color: #000;
+    }
+
+
+.table-responsive {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 12px;
 }

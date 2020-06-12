@@ -1,0 +1,148 @@
+﻿@model Organizer.ViewModels.PlannerViewModel
+
+@{
+    ViewBag.Title = "MonthPlanner";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-center">План на месяц</h2>
+
+<div class="container mb-5">
+    <div class="row">
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#CollapseYearGoals" aria-expanded="false" aria-controls="collapseExample">
+            Показать цели на год
+        </button>
+        <div class="collapse" id="CollapseYearGoals">
+            <div id="year-goals" class="card card-block">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<input id="planner-id" type="hidden" value="@Model.Planner.Id" />
+
+
+@if (Model.InboxGoals != null && Model.InboxGoals.Count > 0)
+{
+    <div class="category-list">
+        <p class="category-name">Входящее:</p>
+        <ul class="list">
+            @foreach (var goal in Model.InboxGoals)
+            {
+                <li class="list-item" draggable="true" data-goalid=@goal.Id>@goal.Name</li>
+            }
+        </ul>
+    </div>
+}
+
+
+<div id="planner">
+
+</div>
+
+
+
+
+@section scripts{
+    <script>
+
+        $(document).ready(function () {
+
+            let plannerId = parseInt($('#planner-id').val());
+
+            $.ajax({
+                url: "/api/planner",
+                data: { id: plannerId },
+                method: "GET",
+                success: function (response) {
+                    for (var prop in response) {
+                        var projectId = response[prop].projectId;
+                        var category = response[prop].category;
+                        var goals = response[prop].goals;
+
+                        var div = $("<div class='category-list'>");
+                        var p = $("<p class='category-name' data-projectId=" + projectId + ">" + category + "</p>");
+                        var ul = $("<ul class='list'>");
+                        var input = $("<input class='add-input' placeholder='Добавить новую задачу'>");
+
+                        for (var goal in goals) {
+                            var li = $("<li class='list-item' draggable='true' data-goalid=" + goals[goal].Id + ">");
+                            var span = $("<span class='goal-name'>")
+                            var content = document.createTextNode(goals[goal].Name);
+
+                            let checkbox = $("<input type='checkbox' class='goal-check' data-goalId=" + goals[goal].Id + ">");
+                            let deleteBtn = $("<button class='btn btn-danger badge pull-right js-delete' data-goalId=" + goals[goal].Id + ">Delete</Button>")
+
+                            var doneStatus = 3;
+                            if (goals[goal].StatusId == doneStatus) {
+                                checkbox.prop('checked', true);
+                                li.css("border-left", "3px solid green");
+                            }
+                            else {
+                                checkbox.prop('checked', false);
+                                li.css("border-left", "3px solid #fb2401");
+                            }
+
+                            li.append(checkbox);
+                            span.append(content);
+                            li.append(span);
+                            li.append(deleteBtn);
+                            ul.append(li);
+                        }
+
+                        div.append(p);
+                        div.append(ul);
+                        div.append(input)
+                        $('#planner').append(div);
+                    }
+
+                    MakeDraggable();
+                    InitializeInputs();
+                    InitializeCheckboxes();
+                }
+            });
+
+
+
+
+            $.ajax({
+                url: "/api/planner/get-year-goals",
+                method: "GET",
+                success: function (response) {
+                    for (var prop in response) {
+                        var category = response[prop].category;
+                        var goals = response[prop].goals;
+
+                        var div = $("<div class='col-md-4'>");
+                        var p = $("<p class='category-name'>" + category + "</p>");
+                        var ul = $("<ul>");
+
+                        for (var goal in goals) {
+                            var li = $("<li>");
+                            var content = document.createTextNode(goals[goal].Name);
+
+                            if (goals[goal].StatusId == 3) {
+                                console.log(1);
+                                li.css("color", "green");
+                                li.css("text-decoration", "line-through");
+                            }
+
+                            li.append(content);
+                            ul.append(li);
+                        }
+
+                        div.append(p);
+                        div.append(ul);
+                        $('#year-goals').append(div);
+                    }
+                }
+            });
+        });
+
+    </script>
+}
